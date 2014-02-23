@@ -1,0 +1,11 @@
+---
+# tasks file for ubuntu_python_apt
+- name: Check if python-apt installed on Debian-based machines
+  command: dpkg -s python-apt
+  register: pythonapt
+  when: "ansible_os_family == 'Debian'"
+  ignore_errors: yes
+
+- name: Install python-apt for Debian based machines
+  shell: apt-get update && apt-get -y install python-apt
+  when: "ansible_os_family == 'Debian' and pythonapt.stderr"
